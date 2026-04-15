@@ -1,205 +1,154 @@
-import Link from 'next/link'
-import { Zap, ArrowRight, Clock, Layers, BarChart2, RefreshCw, Sparkles } from 'lucide-react'
+'use client'
 
-export default function LandingPage() {
+import { useState } from 'react'
+import {
+  Home,
+  FolderOpen,
+  Palette,
+  Rocket,
+  User,
+  Plus,
+  ArrowUp,
+  Workflow,
+  MessageSquare,
+  Settings2,
+} from 'lucide-react'
+
+const NAV_ITEMS = [
+  { icon: Home, label: '首页', active: true },
+  { icon: FolderOpen, label: '项目' },
+  { icon: Palette, label: '风格' },
+  { icon: Rocket, label: '发布' },
+]
+
+export default function HomePage() {
+  const [mode, setMode] = useState<'chat' | 'pro'>('chat')
+  const [prompt, setPrompt] = useState('')
+
   return (
-    <div className="min-h-screen bg-white">
-      {/* Nav */}
-      <nav className="border-b border-gray-100 px-6 py-4 flex items-center justify-between sticky top-0 bg-white/95 backdrop-blur-sm z-50">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-blue-600 rounded-xl flex items-center justify-center">
-            <Zap className="w-[18px] h-[18px] text-white" />
-          </div>
-          <span className="font-bold text-gray-900 text-lg">XBuilder</span>
+    <div className="flex h-screen bg-[#0b1810] text-white overflow-hidden">
+      {/* Left Sidebar */}
+      <aside className="flex flex-col items-center py-6 px-3 w-[60px] shrink-0 border-r border-white/5">
+        {/* Logo */}
+        <div className="w-9 h-9 rounded-xl bg-[#1e4030] flex items-center justify-center mb-8">
+          <Rocket className="w-4 h-4 text-emerald-400" />
         </div>
-        <div className="flex items-center gap-4">
-          <Link href="/dashboard" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-            Dashboard
-          </Link>
-          <Link
-            href="/builder"
-            className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
-          >
-            Start Building
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
-      </nav>
 
-      {/* Hero */}
-      <section className="max-w-4xl mx-auto px-6 py-24 text-center">
-        <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 rounded-full px-4 py-1.5 text-sm text-blue-700 font-medium mb-8">
-          <Sparkles className="w-3.5 h-3.5" />
-          AI Workflow → Web Tool in minutes
-        </div>
-        <h1 className="text-5xl sm:text-6xl font-extrabold text-gray-900 leading-tight tracking-tight mb-6">
-          Ship your AI tool page
-          <br />
-          <span className="text-blue-600">before lunch.</span>
-        </h1>
-        <p className="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed mb-10">
-          XBuilder turns any internal AI Workflow into a polished, shareable web tool — no code, no design sprints.
-          Select a workflow, pick a style, and go live in under 30 minutes.
-        </p>
-        <div className="flex items-center justify-center gap-4 flex-wrap">
-          <Link
-            href="/builder"
-            className="flex items-center gap-2 bg-blue-600 text-white px-7 py-3.5 rounded-xl text-base font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200"
-          >
-            Create your first tool
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-          <Link
-            href="/dashboard"
-            className="flex items-center gap-2 text-gray-600 border border-gray-200 px-7 py-3.5 rounded-xl text-base font-medium hover:bg-gray-50 transition-colors"
-          >
-            View Dashboard
-          </Link>
-        </div>
-        <p className="text-xs text-gray-400 mt-4">No credit card required · Takes ~30 minutes</p>
-      </section>
-
-      {/* Process steps */}
-      <section className="bg-gray-50 py-20 px-6">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">How it works</h2>
-            <p className="text-gray-500">Six steps from idea to live tool.</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {[
-              {
-                step: '1 → 2',
-                icon: Layers,
-                color: 'blue',
-                title: 'Select & Configure',
-                desc: 'Pick a Workflow from your library, then choose which page modules to include. Toggle, reorder, done.',
-              },
-              {
-                step: '3 → 4',
-                icon: Sparkles,
-                color: 'purple',
-                title: 'Style & Preview',
-                desc: 'Choose a visual style pack. AI generates all the page copy. See the live preview instantly, edit inline.',
-              },
-              {
-                step: '5 → 6',
-                icon: Zap,
-                color: 'green',
-                title: 'Publish & Measure',
-                desc: 'One click to go live. Track visits, workflow calls, and conversion rate — then iterate.',
-              },
-            ].map(item => (
-              <div key={item.step} className="bg-white rounded-2xl border border-gray-200 p-6 space-y-4">
-                <div className={`inline-flex items-center gap-2 text-xs font-semibold px-2.5 py-1 rounded-full ${
-                  item.color === 'blue' ? 'bg-blue-50 text-blue-600' :
-                  item.color === 'purple' ? 'bg-purple-50 text-purple-600' : 'bg-green-50 text-green-600'
-                }`}>
-                  Step {item.step}
-                </div>
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                  item.color === 'blue' ? 'bg-blue-50' :
-                  item.color === 'purple' ? 'bg-purple-50' : 'bg-green-50'
-                }`}>
-                  <item.icon className={`w-5 h-5 ${
-                    item.color === 'blue' ? 'text-blue-600' :
-                    item.color === 'purple' ? 'text-purple-600' : 'text-green-600'
-                  }`} />
-                </div>
-                <h3 className="font-semibold text-gray-900">{item.title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="py-20 px-6 max-w-5xl mx-auto">
-        <div className="text-center mb-14">
-          <h2 className="text-3xl font-bold text-gray-900 mb-3">Built for validation speed</h2>
-          <p className="text-gray-500">Every feature is designed to reduce time-to-feedback.</p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {[
-            {
-              icon: Clock,
-              title: 'Under 30 minutes to live',
-              desc: 'From selecting a workflow to a shareable URL — no waiting for dev sprints.',
-            },
-            {
-              icon: Layers,
-              title: 'Module-based page structure',
-              desc: 'Toggle and reorder pre-built modules: Nav, Hero, How To, FAQ, Reviews and more.',
-            },
-            {
-              icon: Sparkles,
-              title: 'AI-generated page copy',
-              desc: 'Claude writes your headlines, descriptions, how-to steps, and FAQ automatically.',
-            },
-            {
-              icon: BarChart2,
-              title: 'Built-in analytics',
-              desc: 'Track visits, workflow calls, and conversion rates right from the dashboard.',
-            },
-            {
-              icon: RefreshCw,
-              title: 'Iterate in minutes',
-              desc: 'Edit text inline, swap modules, change style — republish in seconds. No dev needed.',
-            },
-            {
-              icon: Zap,
-              title: '5 curated style packs',
-              desc: 'Minimalist, Tech Dark, Bold, Professional, Soft. Plus custom color override.',
-            },
-          ].map(feature => (
-            <div key={feature.title} className="flex gap-4 p-5 rounded-xl border border-gray-100 hover:border-blue-100 hover:bg-blue-50/20 transition-all">
-              <div className="w-9 h-9 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                <feature.icon className="w-[18px] h-[18px] text-blue-600" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900 text-sm mb-1">{feature.title}</h3>
-                <p className="text-xs text-gray-500 leading-relaxed">{feature.desc}</p>
-              </div>
-            </div>
+        {/* Nav icons */}
+        <nav className="flex flex-col items-center gap-3 flex-1">
+          {NAV_ITEMS.map(({ icon: Icon, label, active }) => (
+            <button
+              key={label}
+              title={label}
+              className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
+                active
+                  ? 'bg-white text-[#0b1810]'
+                  : 'text-white/40 hover:text-white/70 hover:bg-white/10'
+              }`}
+            >
+              <Icon className="w-[18px] h-[18px]" />
+            </button>
           ))}
-        </div>
-      </section>
+        </nav>
 
-      {/* CTA banner */}
-      <section className="bg-blue-600 py-16 px-6">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Ready to validate your next product idea?</h2>
-          <p className="text-blue-100 mb-8">
-            Stop waiting for dev resources. Ship a real working tool page and get genuine user feedback today.
+        {/* User at bottom */}
+        <button
+          title="账户"
+          className="w-9 h-9 rounded-xl flex items-center justify-center text-white/40 hover:text-white/70 hover:bg-white/10 transition-colors mt-auto"
+        >
+          <User className="w-[18px] h-[18px]" />
+        </button>
+      </aside>
+
+      {/* Main content */}
+      <main className="flex-1 flex flex-col items-center px-6 overflow-y-auto">
+        <div className="w-full max-w-[760px] pt-20 pb-10">
+          {/* Heading */}
+          <h1 className="text-center text-[42px] font-bold leading-tight mb-3 tracking-tight">
+            想法落地，一句话的事
+          </h1>
+          <p className="text-center text-white/45 text-[15px] mb-8">
+            描述你想要的页面，AI 即刻生成可运行的完整代码
           </p>
-          <Link
-            href="/builder"
-            className="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-3.5 rounded-xl text-base font-semibold hover:bg-blue-50 transition-colors"
-          >
-            Start building for free
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </section>
 
-      {/* Footer */}
-      <footer className="border-t border-gray-100 py-8 px-6">
-        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-blue-600 rounded-lg flex items-center justify-center">
-              <Zap className="w-3 h-3 text-white" />
+          {/* Mode toggle */}
+          <div className="flex justify-center mb-6">
+            <div className="inline-flex items-center gap-1 bg-white/8 border border-white/10 rounded-full p-1">
+              <button
+                onClick={() => setMode('chat')}
+                className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                  mode === 'chat'
+                    ? 'bg-white/15 text-white'
+                    : 'text-white/50 hover:text-white/70'
+                }`}
+              >
+                <MessageSquare className="w-3.5 h-3.5" />
+                对话模式
+              </button>
+              <button
+                onClick={() => setMode('pro')}
+                className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                  mode === 'pro'
+                    ? 'bg-white/15 text-white'
+                    : 'text-white/50 hover:text-white/70'
+                }`}
+              >
+                <Settings2 className="w-3.5 h-3.5" />
+                专业模式
+              </button>
             </div>
-            <span className="font-bold text-gray-900 text-sm">XBuilder</span>
           </div>
-          <div className="flex gap-6 text-xs text-gray-400">
-            <a href="#" className="hover:text-gray-600">Terms</a>
-            <a href="#" className="hover:text-gray-600">Privacy</a>
-            <a href="#" className="hover:text-gray-600">Support</a>
+
+          {/* Input card */}
+          <div className="bg-white/6 border border-white/10 rounded-2xl overflow-hidden mb-10">
+            <textarea
+              value={prompt}
+              onChange={e => setPrompt(e.target.value)}
+              placeholder="描述你想要创建的网页..."
+              rows={4}
+              className="w-full bg-transparent px-5 pt-5 pb-3 text-sm text-white placeholder:text-white/30 resize-none outline-none"
+            />
+            {/* Bottom toolbar */}
+            <div className="flex items-center px-4 pb-3 pt-1 gap-2">
+              <button className="w-7 h-7 rounded-lg flex items-center justify-center text-white/40 hover:text-white/70 hover:bg-white/10 transition-colors">
+                <Plus className="w-4 h-4" />
+              </button>
+              <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white/40 hover:text-white/70 hover:bg-white/10 transition-colors text-xs">
+                <Palette className="w-3.5 h-3.5" />
+                风格
+              </button>
+              <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white/40 hover:text-white/70 hover:bg-white/10 transition-colors text-xs">
+                <Workflow className="w-3.5 h-3.5" />
+                工作流
+              </button>
+              <div className="flex-1" />
+              <button
+                disabled={!prompt.trim()}
+                className="w-8 h-8 rounded-full bg-emerald-600 hover:bg-emerald-500 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
+              >
+                <ArrowUp className="w-4 h-4 text-white" />
+              </button>
+            </div>
           </div>
-          <p className="text-xs text-gray-400">© {new Date().getFullYear()} XBuilder. All rights reserved.</p>
+
+          {/* Projects section */}
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-base font-semibold">项目</h2>
+            <button className="text-sm text-white/40 hover:text-white/70 transition-colors">
+              管理项目
+            </button>
+          </div>
+
+          {/* Empty state */}
+          <div className="bg-white/4 border border-white/8 rounded-2xl flex flex-col items-center justify-center py-16 px-6">
+            <p className="text-white/35 text-sm mb-5">还没有项目，立即创建一个吧！</p>
+            <button className="flex items-center gap-2 bg-[#1a1a1a] hover:bg-[#222] border border-white/10 text-white text-sm font-medium px-5 py-2.5 rounded-full transition-colors">
+              <Settings2 className="w-4 h-4" />
+              创建第一个项目
+            </button>
+          </div>
         </div>
-      </footer>
+      </main>
     </div>
   )
 }

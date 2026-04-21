@@ -27,6 +27,7 @@ const DEFAULT_ORDER: ModuleId[] = ['nav', 'hero', 'howto', 'scenery', 'othertool
 interface BuilderActions {
   setStep: (step: BuilderStep) => void
   selectWorkflow: (workflow: Workflow) => void
+  setFigmaUrl: (url: string | null) => void
   toggleModule: (id: ModuleId) => void
   setModuleOrder: (order: ModuleId[]) => void
   setStylePack: (id: StylePackId) => void
@@ -48,6 +49,7 @@ interface SitesState {
 const initialBuilder: BuilderState = {
   currentStep: 1,
   selectedWorkflow: null,
+  figmaUrl: null,
   modules: DEFAULT_MODULES,
   moduleOrder: DEFAULT_ORDER,
   stylePackId: 'clean-professional',
@@ -67,6 +69,8 @@ export const useBuilderStore = create<BuilderState & BuilderActions>()(
     setStep: (step) => set({ currentStep: step }),
 
     selectWorkflow: (workflow) => set({ selectedWorkflow: workflow }),
+
+    setFigmaUrl: (url) => set({ figmaUrl: url }),
 
     toggleModule: (id) =>
       set((s) => ({

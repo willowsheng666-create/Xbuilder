@@ -71,6 +71,7 @@ function SortableModuleChip({
 export function Step4Preview() {
   const {
     selectedWorkflow,
+    figmaUrl,
     modules,
     moduleOrder,
     stylePackId,
@@ -106,7 +107,7 @@ export function Step4Preview() {
       const res = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ workflow: selectedWorkflow, stylePackId, chatPrompt }),
+        body: JSON.stringify({ workflow: selectedWorkflow, stylePackId, chatPrompt, figmaUrl }),
       })
       const data = await res.json()
       if (data.content) setPageContent(data.content)

@@ -7,10 +7,11 @@ const client = new Anthropic()
 
 export async function POST(req: NextRequest) {
   try {
-    const { workflow, stylePackId, chatPrompt } = await req.json() as {
+    const { workflow, stylePackId, chatPrompt, figmaUrl } = await req.json() as {
       workflow: Workflow
       stylePackId: string
       chatPrompt?: string
+      figmaUrl?: string
     }
 
     if (!workflow) {
@@ -29,13 +30,16 @@ You will generate page content for a web tool page.
 Always respond with a single valid JSON object matching the PageContent schema — no markdown, no explanation, no code fences.
 The content must be professional, concise, and focused on user value.`
 
-    const userPrompt = chatPrompt
+    const figmaContext = figmaUrl
+      ? `\nThe user has provided a Figma design file for reference: ${figmaUrl}\nPlease generate content that would complement a design with this Figma file — infer brand tone, naming style, and product focus from the URL path if possible.`
+      : ''
+
+    const userPrompt = (chatPrompt || figmaUrl)
       ? `Generate page content for an AI tool called "${workflow.name}".
 Tool description: ${workflow.description}
 Category: ${workflow.category}
 Processing time: ~${workflow.estimatedSeconds} seconds
-Visual style: ${stylePackId}
-Additional requirements from the user: ${chatPrompt}
+Visual style: ${stylePackId}${figmaContext}${chatPrompt ? `\nAdditional requirements from the user: ${chatPrompt}` : ''}
 
 Return a JSON object with these exact keys:
 - nav: { logo, links: [{label, href}], ctaText }

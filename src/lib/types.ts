@@ -127,6 +127,7 @@ export type BuilderStep = 1 | 2 | 3 | 4 | 6
 export interface BuilderState {
   currentStep: BuilderStep
   selectedWorkflow: Workflow | null
+  figmaUrl: string | null
   modules: ModuleConfig[]
   moduleOrder: ModuleId[]
   stylePackId: StylePackId
